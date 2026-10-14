@@ -1,0 +1,16 @@
+# Maven build and generated reports
+/target/
+/test-output/
+/reports/
+
+# Eclipse workspace metadata
+/.classpath
+/.project
+/.settings/
+
+# Local VS Code workspace settings
+/.vscode/
+
+# Operating system files
+.DS_Store
+Thumbs.db
