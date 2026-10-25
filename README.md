@@ -5,8 +5,8 @@
 This project is an Android mobile automation framework for the TUI Challenge app, built with:
 
 - Java 17 and Maven
-- Appium Java Client 11 and Selenium support 4.51
-- Cucumber 8 with the JUnit Platform runner and PicoContainer
+- Appium 
+- Cucumber BDD
 - Page Object Model (POM)
 - SLF4J with Logback
 - Jackson JSON support for externalized scenario data and capabilities
@@ -190,3 +190,7 @@ The latest recorded emulator run completed with 5 tests, 0 failures, 0 errors, a
 - Validate a selected cloud provider's endpoint, capabilities, app upload, and secret configuration.
 - Capture screenshots on failure and attach them to Cucumber reports.
 - Add iOS support only if required; the current driver, locators, and application flow are Android-specific.
+
+#Author
+Rajesh Arnagi
+Senior Automation Engineer
