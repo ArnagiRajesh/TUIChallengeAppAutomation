@@ -1,11 +1,12 @@
 package com.TUIChallengeApp.hooks;
 
 import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.TUIChallengeApp.TUIChallenge.AllItems;
-import com.TUIChallengeApp.TUIChallenge.HolodaysTab;
+import com.TUIChallengeApp.TUIChallenge.HolidaysPage;
 import com.TUIChallengeApp.TUIChallenge.LoginPage;
-import com.TUIChallengeApp.Utils.AndroidUtils;
 import com.TUIChallengeApp.Utils.BaseTest;
 
 import io.appium.java_client.android.AndroidDriver;
@@ -16,11 +17,12 @@ import io.cucumber.java.AfterAll;
 
 public class CucumberHooks {
 
+    private static final Logger LOG = LoggerFactory.getLogger(CucumberHooks.class);
+
     public AndroidDriver driver;
     public LoginPage login;
     public AllItems items;
-    public AndroidUtils utils;
-    public HolodaysTab holiday;
+    public HolidaysPage holidays;
 
     @BeforeAll
     public static void startAppiumServer() throws IOException {
@@ -29,19 +31,31 @@ public class CucumberHooks {
 
     @Before
     public void startScenario() throws IOException {
-        driver = new BaseTest().createDriver();
-        login = new LoginPage(driver);
-        items = new AllItems(driver);
-        utils = new AndroidUtils(driver);
-        holiday = new HolodaysTab(driver);
-        driver.terminateApp("com.tui.qa.challenge");
-        driver.activateApp("com.tui.qa.challenge");
+        try {
+            driver = new BaseTest().createDriver();
+            login = new LoginPage(driver);
+            items = new AllItems(driver);
+            holidays = new HolidaysPage(BaseTest.getDriver());
+            LOG.atInfo().addKeyValue("event", "scenario_started")
+                    .addKeyValue("thread", Thread.currentThread().getName()).log("Scenario started");
+        } catch (IOException | RuntimeException exception) {
+            LOG.atError().addKeyValue("event", "scenario_setup_failed")
+                    .addKeyValue("thread", Thread.currentThread().getName()).setCause(exception)
+                    .log("Scenario setup failed");
+            BaseTest.quitDriver();
+            throw exception;
+        }
     }
 
     @After
     public void stopScenario() {
-        if (driver != null) {
-            driver.quit();
+        try {
+            BaseTest.quitDriver();
+        } finally {
+            driver = null;
+            login = null;
+            items = null;
+            holidays = null;
         }
     }
 

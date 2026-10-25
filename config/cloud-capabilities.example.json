@@ -1,0 +1,8 @@
+{
+  "appium:deviceName": "<cloud-device-name>",
+  "appium:platformVersion": "<android-version>",
+  "appium:app": "<uploaded-app-id-from-provider>",
+  "<provider-namespace>:options": {
+    "<provider-required-option>": "<value>"
+  }
+}

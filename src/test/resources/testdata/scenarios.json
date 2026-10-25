@@ -1,0 +1,30 @@
+{
+  "validLogin": {
+    "username": "user1",
+    "password": "pass1",
+    "date": "01041999"
+  },
+  "loginWithoutPassword": {
+    "username": "user1",
+    "date": "01041999"
+  },
+  "allListingHotel": {
+    "username": "user1",
+    "password": "pass1",
+    "date": "01041999",
+    "tab": "All",
+    "hotel": "Hotel: Melia White House"
+  },
+  "hotelsTabHotel": {
+    "username": "user1",
+    "password": "pass1",
+    "date": "01041999",
+    "tab": "Hotels",
+    "hotel": "Travelodge London Central City Road Hotel"
+  },
+  "holidayBrowse": {
+    "username": "user1",
+    "password": "pass1",
+    "date": "01041999"
+  }
+}

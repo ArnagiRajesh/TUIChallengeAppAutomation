@@ -1,79 +1,71 @@
 package com.TUIChallengeApp.stepdefinitions;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.TUIChallengeApp.hooks.CucumberHooks;
+import com.TUIChallengeApp.Utils.JsonTestData;
 
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 public class TUIChallengeSteps {
+	private static final Logger LOG = LoggerFactory.getLogger(TUIChallengeSteps.class);
+	private final CucumberHooks hooks;
 
-    private final CucumberHooks hooks;
+	public TUIChallengeSteps(CucumberHooks hooks) {
+		this.hooks = hooks;
+	}
 
-    public TUIChallengeSteps(CucumberHooks hooks) {
-        this.hooks = hooks;
-    }
+	@When("I log in with test data {string}")
+	public void logInWithTestData(String dataset) {
+		hooks.login.enterUsername(JsonTestData.value(dataset, "username"));
+		hooks.login.enterPassword(JsonTestData.value(dataset, "password"));
+		hooks.login.selectDateOfBirth(JsonTestData.value(dataset, "date"));
+		hooks.login.submitLogin();
+		LOG.atInfo().addKeyValue("event", "login_submitted")
+				.addKeyValue("dataset", dataset).log("Login submitted using external test data");
+	}
 
-    @When("I log in with username {string}, password {string}, and date {string}")
-    public void logInWithCredentials(String username, String password, String date) throws InterruptedException {
-        hooks.login.enterUserName(username);
-        hooks.login.enterPassword(password);
-        hooks.login.clickOnCalenderIcon();
-        hooks.login.editCalenderButton();
-        hooks.login.enterDateTab(date);
-        hooks.login.confirmDate();
-        hooks.login.submitButton();
-    }
+	@When("I submit login with test data {string} without a password")
+	public void submitLoginWithoutPassword(String dataset) {
+		hooks.login.enterUsername(JsonTestData.value(dataset, "username"));
+		hooks.login.selectDateOfBirth(JsonTestData.value(dataset, "date"));
+		hooks.login.submitLogin();
+	}
 
-    @When("I submit login with username {string} and date {string} without a password")
-    public void submitLoginWithoutPassword(String username, String date) throws InterruptedException {
-        hooks.login.enterUserName(username);
-        hooks.login.clickOnCalenderIcon();
-        hooks.login.editCalenderButton();
-        hooks.login.enterDateTab(date);
-        hooks.login.confirmDate();
-        hooks.login.submitButton();
-    }
+	@Then("the all items catalog is displayed")
+	public void allItemsCatalogIsDisplayed() {
+		hooks.items.assertCatalogDisplayed();
+	}
 
-    @Then("the all items catalog is displayed")
-    public void allItemsCatalogIsDisplayed() {
-        hooks.items.allItemsCheck();
-    }
+	@Then("the password validation message is {string}")
+	public void passwordValidationMessageIs(String expectedMessage) {
+		hooks.login.assertPasswordError(expectedMessage);
+	}
 
-    @Then("the password validation message is {string}")
-    public void passwordValidationMessageIs(String expectedMessage) {
-        String actualMessage = hooks.login.passwordErrorValidation();
-        if (!expectedMessage.equals(actualMessage)) {
-            throw new AssertionError("Expected password validation '" + expectedMessage
-                    + "' but was '" + actualMessage + "'");
-        }
-    }
+	@When("I open the listing from test data {string}")
+	public void openListing(String dataset) {
+		String listing = JsonTestData.value(dataset, "tab");
+		switch (listing) {
+			case "All" -> hooks.items.assertCatalogDisplayed();
+			case "Hotels" -> hooks.items.openHotelsTabAndAssertDisplayed();
+			default -> throw new IllegalArgumentException("Unsupported hotel listing: " + listing);
+		}
+	}
 
-    @When("I scroll to hotel {string}")
-    public void scrollToHotel(String hotelName) {
-        hooks.items.allItemsCheck();
-        hooks.utils.scrollGesture(hotelName);
-    }
+	@Then("the hotel from test data {string} is displayed")
+	public void hotelFromTestDataIsDisplayed(String dataset) {
+		hooks.items.scrollToHotelAndAssertVisible(JsonTestData.value(dataset, "hotel"));
+	}
 
-    @Then("the Hotels tab is displayed and I scroll to {string}")
-    public void hotelsTabIsDisplayedAndScrollTo(String hotelName) {
-        hooks.items.allItemsCheck();
-        if (!hooks.items.hotelsTab()) {
-            throw new AssertionError("The Hotels tab was not displayed");
-        }
-        hooks.utils.scrollGesture(hotelName);
-    }
+	@When("I open the Holidays tab")
+	public void openHolidaysTab() {
+		hooks.holidays.openHolidaysTab();
+	}
 
-    @When("I open the Holidays tab")
-    public void openHolidaysTab() throws InterruptedException {
-        if (!hooks.holiday.hotelsTab()) {
-            throw new AssertionError("The Holidays tab was not enabled");
-        }
-    }
-
-    @Then("the first holiday is displayed")
-    public void firstHolidayIsDisplayed() {
-        if (!hooks.holiday.firstElementOnHotelsTab()) {
-            throw new AssertionError("The first holiday was not displayed");
-        }
-    }
+	@Then("the first holiday is displayed")
+	public void firstHolidayIsDisplayed() {
+		hooks.holidays.assertFirstHolidayDisplayed();
+	}
 }

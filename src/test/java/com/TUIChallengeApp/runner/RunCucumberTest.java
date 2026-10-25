@@ -14,6 +14,6 @@ import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 @ConfigurationParameter(key = GLUE_PROPERTY_NAME,
         value = "com.TUIChallengeApp.hooks,com.TUIChallengeApp.stepdefinitions")
 @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME,
-        value = "pretty, html:target/cucumber.html, json:target/cucumber.json")
+        value = "pretty, html:target/cucumber.html, json:target/cucumber.json, rerun:target/rerun.txt")
 public class RunCucumberTest {
 }

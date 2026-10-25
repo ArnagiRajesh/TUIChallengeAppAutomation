@@ -1,43 +1,29 @@
 Feature: TUI Challenge login and holiday browsing
-  Validate login, catalogue navigation, and holiday content in the Android app.
+  Validate login, hotel listing navigation, and holiday content in the Android app.
 
-  Scenario Outline: Login shows the all items catalogue
-    When I log in with username "<username>", password "<password>", and date "<date>"
+  @smoke @regression
+  Scenario: Login displays the all items catalog
+    When I log in with test data "validLogin"
     Then the all items catalog is displayed
 
-    Examples:
-      | username | password | date     |
-      | user1    | pass1    | 01041999 |
-
-  Scenario Outline: Login without a password shows validation
-    When I submit login with username "<username>" and date "<date>" without a password
+  @regression
+  Scenario: Login without a password shows validation
+    When I submit login with test data "loginWithoutPassword" without a password
     Then the password validation message is "Required"
 
-    Examples:
-      | username | date     |
-      | user1    | 01041999 |
-
-  Scenario Outline: A hotel can be found by scrolling
-    When I log in with username "<username>", password "<password>", and date "<date>"
-    And I scroll to hotel "<hotel>"
+  @regression
+  Scenario Outline: A hotel is visible after searching its listing
+    When I log in with test data "<dataset>"
+    And I open the listing from test data "<dataset>"
+    Then the hotel from test data "<dataset>" is displayed
 
     Examples:
-      | username | password | date     | hotel                       |
-      | user1    | pass1    | 01041999 | Hotel: Melia White House    |
+      | dataset          |
+      | allListingHotel  |
+      | hotelsTabHotel   |
 
-  Scenario Outline: Hotels tab is shown and can be scrolled
-    When I log in with username "<username>", password "<password>", and date "<date>"
-    Then the Hotels tab is displayed and I scroll to "<hotel>"
-
-    Examples:
-      | username | password | date     | hotel     |
-      | user1    | pass1    | 01041999 | President |
-
-  Scenario Outline: Holidays tab displays its first holiday
-    When I log in with username "<username>", password "<password>", and date "<date>"
+  @smoke @regression
+  Scenario: Holidays tab displays its first holiday
+    When I log in with test data "holidayBrowse"
     And I open the Holidays tab
     Then the first holiday is displayed
-
-    Examples:
-      | username | password | date     |
-      | user1    | pass1    | 01041999 |
