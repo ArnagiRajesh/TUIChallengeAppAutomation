@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.TUIChallengeApp.runner.RunCucumberTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 190.1 s -- in com.TUIChallengeApp.runner.RunCucumberTest

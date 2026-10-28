@@ -36,12 +36,16 @@ public class AllItems {
 		}
 	}
 
-	public void openHotelsTabAndAssertDisplayed() {
-		wait.until(ExpectedConditions.elementToBeClickable(hotelsTab)).click();
+	public void assertHotelsTabDisplayed() {
 		wait.until(ExpectedConditions.visibilityOf(hotelsTab));
 		if (!hotelsTab.isDisplayed()) {
 			throw new AssertionError("The Hotels tab is not displayed");
 		}
+	}
+
+	public void openHotelsTabAndAssertDisplayed() {
+		wait.until(ExpectedConditions.elementToBeClickable(hotelsTab)).click();
+		assertHotelsTabDisplayed();
 	}
 
 	public void scrollToHotelAndAssertVisible(String hotelName) {

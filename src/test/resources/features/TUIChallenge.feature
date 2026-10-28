@@ -12,6 +12,12 @@ Feature: TUI Challenge login and holiday browsing
     Then the password validation message is "Required"
 
   @regression
+  Scenario: Hotels tab is shown after login
+    When I log in with test data "validLogin"
+    And I open the Hotels tab
+    Then the hotels tab is displayed
+
+  @regression
   Scenario Outline: A hotel is visible after searching its listing
     When I log in with test data "<dataset>"
     And I open the listing from test data "<dataset>"

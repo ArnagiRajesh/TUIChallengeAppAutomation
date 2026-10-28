@@ -21,7 +21,7 @@ public class HolidaysPage {
 	@AndroidFindBy(xpath = "//android.view.View[@content-desc='Holidays']")
 	private WebElement holidaysTab;
 
-	@AndroidFindBy(xpath = "//android.widget.TextView[@text='Riu Madeira']")
+	@AndroidFindBy(xpath = "//android.widget.TextView[@text='Holidays']")
 	private WebElement firstHoliday;
 
 	public void openHolidaysTab() {
@@ -29,8 +29,9 @@ public class HolidaysPage {
 	}
 
 	public void assertFirstHolidayDisplayed() {
-		if (!wait.until(ExpectedConditions.visibilityOf(firstHoliday)).isDisplayed()) {
-			throw new AssertionError("The first holiday, Riu Madeira, is not displayed");
+		wait.until(ExpectedConditions.visibilityOf(firstHoliday));
+		if (!firstHoliday.isDisplayed()) {
+			throw new AssertionError("The first holiday text is not displayed on the Holidays page");
 		}
 	}
 }

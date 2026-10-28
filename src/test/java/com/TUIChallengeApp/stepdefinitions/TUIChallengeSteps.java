@@ -39,6 +39,17 @@ public class TUIChallengeSteps {
 		hooks.items.assertCatalogDisplayed();
 	}
 
+	
+	@When("I open the Hotels tab")
+	public void openHotelsTab() {
+		hooks.items.openHotelsTabAndAssertDisplayed();
+	}
+
+	@Then("the hotels tab is displayed")
+	public void hotelsTabIsDisplayed() {
+		hooks.items.assertHotelsTabDisplayed();
+	}
+
 	@Then("the password validation message is {string}")
 	public void passwordValidationMessageIs(String expectedMessage) {
 		hooks.login.assertPasswordError(expectedMessage);
@@ -67,5 +78,8 @@ public class TUIChallengeSteps {
 	@Then("the first holiday is displayed")
 	public void firstHolidayIsDisplayed() {
 		hooks.holidays.assertFirstHolidayDisplayed();
+		
+		
+		
 	}
 }

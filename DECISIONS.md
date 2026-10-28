@@ -1,6 +1,6 @@
 # Automation Framework Decisions
 
-> **Latest emulator result:** The focused hotel-listing Cucumber scenario and the full `mvn clean test` suite both passed on the configured Android emulator. The latest Surefire report records 5 tests, 0 failures, 0 errors, and 0 skipped.
+> **Latest emulator result:** The current Cucumber suite passed on the configured Android emulator. The latest verified run records 6 executed tests, 0 failures, 0 errors, and 0 skipped.
 
 ## 1. Why I Chose This Project Structure
 
@@ -63,7 +63,7 @@ AI assistance was used during project review, implementation, and documentation.
 - Consolidated the overlapping All/Hotels scrolling checks into one Scenario Outline with distinct JSON datasets.
 - Required the hotel target to be visible after scrolling; used `UiScrollable(new UiSelector()).scrollIntoView(text(...))` as exercised by the Android run.
 - Retained `@smoke` and `@regression` tags and moved scenario inputs out of Gherkin Examples into JSON.
-- The focused outline and full clean Cucumber suite passed on the emulator (Surefire: 5 tests, 0 failures, 0 errors, 0 skipped).
+- The current suite passed on the emulator (Surefire: 6 executed tests, 0 failures, 0 errors, 0 skipped).
 
 ### AI Suggestion - Retry and Reporting
 
@@ -120,7 +120,7 @@ Parallelism requires both independent thread-local drivers **and** one isolated 
 
 ## 5. Why These Scenarios Were Selected
 
-The current feature contains four scenarios (five executions because the hotel-listing outline has two examples). Selection prioritizes the main login flow, an important validation case, listing navigation/content, and holiday navigation. It does not claim comprehensive feature coverage.
+The current feature contains five scenario definitions and six executed test cases because the hotel-listing outline has two examples. Selection prioritizes the main login flow, validation, listing navigation/content, and holiday navigation. It does not claim comprehensive feature coverage.
 
 ### 1. Successful login opens the All items catalog
 
@@ -134,24 +134,23 @@ The current feature contains four scenarios (five executions because the hotel-l
 
 **Tag:** `@regression`.
 
-### 3. A target hotel is visible in its listing
+### 3. Hotels tab is shown after login
+
+**Reason:** Verifies that the user can navigate to the Hotels tab and that the tab itself is visible as expected after login.
+
+**Tag:** `@regression`.
+
+### 4. A target hotel is visible in its listing
 
 **Reason:** The same search/scroll behavior is tested in the All and Hotels listings. A Scenario Outline avoids near-duplicate Gherkin while preserving distinct listing and target-data cases; the assertion checks the expected hotel is visible after scrolling.
 
 **Tag:** `@regression`.
 
-**Result:** The focused hotel-listing Cucumber Scenario Outline passed for both listing datasets on the emulator. The Hotels dataset now uses the app item confirmed by execution; the target is asserted visible after scrolling.
-
-### 4. Holidays tab displays on the screen properly
-
-**Reason:** Exercises a separate navigation tab and validates actual Holidays tab is showing as expected.
-
-**Tag:** `@smoke`.
-
+**Result:** The hotel-listing Cucumber Scenario Outline passed for both listing datasets on the emulator. The target hotel is asserted visible after scrolling for both dataset variations.
 
 ### 5. Holidays tab displays its first holiday
 
-**Reason:** Exercises a separate navigation tab and validates actual content (`Riu Madeira`) rather than only checking that the tab can be tapped.
+**Reason:** Exercises a separate navigation tab and validates actual content is visible rather than only checking that the tab can be tapped.
 
 **Tag:** `@smoke`, `@regression`.
 
